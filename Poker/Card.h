@@ -43,9 +43,9 @@ public:
 	int getRank() {
 		return rank;
 	}
+
 	//uses switch case to print out the names of the cards
 	void printName() {
-		string name;
 		switch(rank) {
 		case(JACK):
 				cout << "Jack";

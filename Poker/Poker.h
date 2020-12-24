@@ -4,6 +4,7 @@
 #include "Deck.h"
 #include "Player.h"
 #include <string>
+#include <limits>
 
 class Game {
 private:
@@ -49,42 +50,54 @@ public:
 	}
 
 
-	void printHands() {
-		for (int i = 0; i < players.size(); i++) {
+	void printHand(int i) {
 			cout << "\n" << players.at(i).getName() << "'s hand:" << endl;
 			for (int x = 0; x < 5; x++) {
 				players.at(i).getHand().at(x).printName();
 			}
 			players.at(i).calculateOutcome();
+	}
+
+	void replaceCards(int i) {
+		vector<int> index;
+		int input;
+		int numReplace;
+
+		cout<< "\n" << players.at(i).getName()<< " enter number of cards to replace: ";
+		cin >> numReplace;
+		while(numReplace > 0) {
+			cout << "\nEnter position to replace(Starting from 1): ";
+			cin >> input;
+			index.push_back(input-1);
+			numReplace--;
+		}
+		for(int x = 0; x < index.size(); x++) {
+			players.at(i).replaceCard(index.at(x),deck.getDeck().at(count++));
+		}
+	}
+
+	void printAllOutcomes() {
+		for(int i = 0; i < players.size(); i++) {
+			printHand(i);
 			players.at(i).printOutcome();
 		}
 	}
 
-	void replaceCards() {
-		vector<int> index;
-		int input;
-		int numReplace;
-		for(int i = 0; i < players.size() ; i++) {
-			cout<< "\n" << players.at(i).getName()<< " enter number of cards to replace: ";
-			cin >> numReplace;
-			while(numReplace > 0) {
-				cout << "Enter position to replace(Starting from 1): ";
-				cin >> input;
-				index.push_back(input-1);
-				numReplace--;
-			}
-			for(int x = 0; x < index.size(); x++) {
-				players.at(i).replaceCard(index.at(x),deck.getDeck().at(count++));
-			}
-		}
-
-	}
-
 	void playRound() {
 		dealCards();
-		printHands();
-		replaceCards();
-		printHands();
+		string ready;
+		for(int i = 0; i < players.size(); i++) {
+			cout << "\n\n" << string(60,'-') << endl;
+
+			cout << "\n" << players.at(i).getName()<< "'s Turn. Type 'Ready' to continue.\n";
+			cin >> ready;
+			cout << endl;
+
+			printHand(i);
+			replaceCards(i);
+		}
+
+		printAllOutcomes();
 		cout << "\n" << getWinner().getName() << " is the winner!!!!!!!" << endl;
 		deck.shuffle();
 		count = 0;

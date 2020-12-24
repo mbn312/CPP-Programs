@@ -1,6 +1,7 @@
 #ifndef PLAYER_H_
 #define PLAYER_H_
 #include <vector>
+#include <string>
 #include "Deck.h"
 
 
@@ -23,7 +24,6 @@ public:
 	}
 
 	Outcome getOutcome() {
-
 		return currentOutcome;
 	}
 
@@ -176,7 +176,7 @@ public:
 		string output;
 		switch(currentOutcome) {
 		case(NOPAIR):
-				output = "No Pair";
+				output = getHighCardName(high) + " High";
 				break;
 		case(ONEPAIR):
 				output = "One Pair";
@@ -208,6 +208,59 @@ public:
 		}
 
 		cout << getName() << " has a " << output  << "." << endl;
+	}
+
+	//gets name of high card
+	string getHighCardName (int r) {
+		switch(r) {
+//mingw bug doesn't allow for int to string conversions, so the commented out code is for creating exe files.
+/*		case(1):
+				return "1";
+				break;
+		case(2):
+				return "2";
+				break;
+		case(3):
+				return "3";
+				break;
+		case(4):
+				return "4";
+				break;
+		case(5):
+				return "5";
+				break;
+		case(6):
+				return "6";
+				break;
+		case(7):
+				return "7";
+				break;
+		case(8):
+				return "8";
+				break;
+		case(9):
+				return "9";
+				break;
+		case(10):
+				return "10";
+				break;*/
+		case(11):
+				return "Jack";
+				break;
+		case(12):
+				return "Queen";
+				break;
+		case(13):
+				return "King";
+				break;
+		case(14):
+				return "Ace";
+				break;
+		default:
+				//return "placeholder";
+				return to_string(r);
+				break;
+		}
 	}
 
 	//sorts a users hand
